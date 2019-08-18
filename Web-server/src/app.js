@@ -3,6 +3,8 @@ const utils = require("./utils");
 
 const app = express();
 
+const port = process.env.PORT || 3000;
+
 app.get("", (req, res) => {
   res.send("<h1>Home Page</h1>");
 });
@@ -38,4 +40,6 @@ app.get("/contact", (req, res) => {
   res.send("Contact Page");
 });
 
-app.listen("3000");
+app.listen(port, () => {
+  console.log(`Application is running in port ${port}`);
+});
