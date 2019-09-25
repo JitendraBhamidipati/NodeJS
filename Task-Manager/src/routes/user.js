@@ -4,7 +4,10 @@ const User = require("../models/user");
 const auth = require("../middleware/auth");
 const sharp = require("sharp");
 const multer = require("multer");
-const { sendWelcomeMail } = require("../emails/accounts");
+const {
+  sendWelcomeMail,
+  sendCancellationEmail
+} = require("../emails/accounts");
 const upload = multer({
   // dest: "avatars", // needed to store in local code.If not mentioned it will send to the function next
   limits: {
@@ -65,6 +68,7 @@ router.post("/users/logout", auth, async (req, res) => {
   try {
     const user = req.user;
     user.tokens = user.tokens.filter(token => token.token != req.token);
+    sendCancellationEmail(user.email, user.name);
     await user.save();
     res.status(200).send("Logout Successful");
   } catch (error) {

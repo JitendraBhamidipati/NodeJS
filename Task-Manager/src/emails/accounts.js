@@ -18,10 +18,11 @@ const sendCancellationEmail = (email, name) => {
     from: "jitendrakumarbhamidipati@gmail.com",
     to: email,
     subject: `Thank you for using the APP,${name}`,
-    text: "Thank you for joining in.Let me know how you get along with the APP"
+    text: "I hope you had good experience using it."
   });
 };
 
 module.exports = {
-  sendWelcomeMail
+  sendWelcomeMail,
+  sendCancellationEmail
 };

@@ -5,8 +5,8 @@ const userRouter = require("./routes/user");
 const taskRouter = require("./routes/task");
 
 const app = express();
-const port = process.env.port || 3000;
-
+const port = process.env.port;
+console.log(process.env.NODE_ENV);
 //Uncomment it while server is under maintainece
 
 // app.use((req, res, next) => {
@@ -21,5 +21,5 @@ app.use(userRouter);
 app.use(taskRouter);
 
 app.listen(port, () => {
-  console.log("App is  running in port 3000");
+  console.log("App is  running in port" + port);
 });
