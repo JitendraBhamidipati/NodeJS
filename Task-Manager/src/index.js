@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: `./config/${process.argv[2]}.env`
+});
+
 const express = require("express");
 require("./db/mongoose");
 
@@ -5,8 +9,8 @@ const userRouter = require("./routes/user");
 const taskRouter = require("./routes/task");
 
 const app = express();
-const port = process.env.port;
-console.log(process.env.NODE_ENV);
+const port = process.env.PORT;
+
 //Uncomment it while server is under maintainece
 
 // app.use((req, res, next) => {
@@ -21,5 +25,5 @@ app.use(userRouter);
 app.use(taskRouter);
 
 app.listen(port, () => {
-  console.log("App is  running in port" + port);
+  console.log("App is  running in port " + port);
 });
