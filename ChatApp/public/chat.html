@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat App</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="icon" href="./images/chat-512.png" />
+  </head>
+  <body>
+    <div class="chat_body">
+      <div class="chat_sidebar" id="roomData"></div>
+      <div class="chat_main">
+        <div id="messages" class="chat_messages"></div>
+        <div class="chat_form">
+          <input
+            type="text"
+            id="message"
+            class="chat_input"
+            required
+            autocomplete="off"
+          />
+          <button id="submitMessage" class="btn submitButton">Send</button>
+          <button id="location" class="btn sendLocation">Send Location</button>
+        </div>
+      </div>
+    </div>
+    <script type="text/html" id="message-template">
+      <div><h6 class='username'>{{userName}}<span class='createdAt'>{{createdAt}}</span></h6><p>{{message}}</p></div>
+    </script>
+    <script type="text/html" id="location-template">
+      <div><h6 class='username'>{{userName}}<span class='createdAt'>{{createdAt}}</span></h6><a target='_blank' href="{{location}}">Click here to navigate</a></div>
+    </script>
+    <script type="text/html" id="roomData-template">
+      <h4>
+        <h4 class="room">Room Name: {{ room }}</h4>
+        <h4 class='user_title'>Users :</h4>
+        <ul >
+        {{#users}}
+        <li class='username'>
+          {{userName}}
+        </li>
+        {{/users}}
+      </ul>
+      </div>
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/chat.js"></script>
+  </body>
+</html>
+
+<!-- <button id="increment">Increase Count</button> -->
