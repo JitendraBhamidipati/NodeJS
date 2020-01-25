@@ -22,7 +22,13 @@ const $roomData = document.getElementById("roomData");
 // Templates
 
 const messageTemplate = document.getElementById("message-template").innerHTML;
+const messageTemplateLoggedUser = document.getElementById(
+  "message-template-loggedUser"
+).innerHTML;
 const locationTemplate = document.getElementById("location-template").innerHTML;
+const locationTemplateLoggedUser = document.getElementById(
+  "location-template-loggedUser"
+).innerHTML;
 const roomDataTemplate = document.getElementById("roomData-template").innerHTML;
 
 const { userName, room } = Qs.parse(location.search, {
@@ -52,21 +58,29 @@ const autoScroll = () => {
 };
 
 socket.on("message", message => {
-  const html = Mustache.render(messageTemplate, {
-    userName: message.userName,
-    message: message.text,
-    createdAt: moment(message.createdAt).format("h:mm a")
-  });
+  const html = Mustache.render(
+    userName === message.userName ? messageTemplateLoggedUser : messageTemplate,
+    {
+      userName: message.userName,
+      message: message.text,
+      createdAt: moment(message.createdAt).format("h:mm a")
+    }
+  );
   $messages.insertAdjacentHTML("beforeend", html);
   autoScroll();
 });
 
 socket.on("locationMessage", location => {
-  const html = Mustache.render(locationTemplate, {
-    userName: location.userName,
-    location: location.url,
-    createdAt: moment(location.createdAt).format("h:mm a")
-  });
+  const html = Mustache.render(
+    userName === location.userName
+      ? locationTemplateLoggedUser
+      : locationTemplate,
+    {
+      userName: location.userName,
+      location: location.url,
+      createdAt: moment(location.createdAt).format("h:mm a")
+    }
+  );
   $messages.insertAdjacentHTML("beforeend", html);
   autoScroll();
 });
@@ -96,6 +110,10 @@ $submitMessage.addEventListener("click", () => {
 
 socket.on("roomData", ({ room, users }) => {
   $roomData.innerHTML = "";
+  users.forEach(user => {
+    if (user.userName.toLowerCase() === userName.toLowerCase())
+      user.userName = user.userName.concat(" (You)");
+  });
   const html = Mustache.render(roomDataTemplate, {
     room,
     users
